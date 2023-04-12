@@ -4,7 +4,7 @@ from sklearn.tree import DecisionTreeClassifier, export_graphviz
 import graphviz
 
 # Load the data into a pandas dataframe
-df = pd.read_csv('weka.csv')
+df = pd.read_csv('materials_preprocessed.csv')
 
 # Convert the Material column to one-hot encoded features
 ohe = OneHotEncoder(sparse_output=False)
