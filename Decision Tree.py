@@ -1,34 +1,51 @@
-import pandas as pd
-from sklearn.preprocessing import OneHotEncoder
 from sklearn.tree import DecisionTreeClassifier, export_graphviz
 import graphviz
+import pandas as pd
 
-# Load the data into a pandas dataframe
-df = pd.read_csv('materials_preprocessed.csv')
+# Read the CSV file into a pandas DataFrame
+df = pd.read_csv('Data.csv')
 
-# Convert the Material column to one-hot encoded features
-ohe = OneHotEncoder(sparse_output=False)
-material_features = ohe.fit_transform(df['Material'].to_numpy().reshape(-1, 1))
-material_feature_names = ohe.get_feature_names_out(['Material'])
-material_df = pd.DataFrame(material_features, columns=material_feature_names)
+# Merge the first three columns using string concatenation
+df['Material'] = df[['Std', 'Material', 'Heat treatment']].fillna('').agg(' '.join, axis=1)
 
-# Combine the material features with the other features
-X = pd.concat([material_df, df[['Su', 'Sy', 'E', 'G', 'mi', 'Ro']]], axis=1)
+# Remove any string values from Sy column
+df['Sy'] = df['Sy'].str.replace(' max', '').astype(int)
 
-# Convert the label column to 0s and 1s
-y = df['Use'].map({'Yes': 1, 'No': 0})
 
-# Train a decision tree classifier
-clf = DecisionTreeClassifier()
-clf.fit(X, y)
+# Drop the unnecessary columns
+df.drop(['Std','ID', 'Heat treatment', 'Desc','A5','Bhn','pH','Desc','HV'], axis=1, inplace=True)
 
-# Export the decision tree as a graphviz dot file
-dot_data = export_graphviz(clf, out_file=None, feature_names=X.columns, class_names=['No', 'Yes'], filled=True, rounded=True, special_characters=True)
-graph = graphviz.Source(dot_data)
+# Add the 'Use' column based on specific conditions
+df['Use'] = (
+    (df['Su'].between(336, 505)) &
+    (df['Sy'].between(251, 376)) &
+    (df['E'].between(165000, 248000)) &
+    (df['G'].between(63000, 94000)) &
+    (df['mu'].between(0.24, 0.36)) &
+    (df['Ro'].between(6200, 9400))
+).map({True: 'True', False: 'False'})
 
-# Display the decision tree
-graph
+# Insert the 'Use' column at the second position
+df.insert(7, 'Use', df.pop('Use'))
 
-graph = graphviz.Source(dot_data)
-graph.format = 'png'
-graph.render('decision_tree')
+# Write the updated data to a new file
+df.to_csv('material.csv', index=False)
+
+
+# Separate the features (X) and labels (y)
+X = df[['Su', 'Sy', 'E', 'G', 'mu', 'Ro']]
+y = df['Use']
+
+# Fit a decision tree classifier on the data
+dtc = DecisionTreeClassifier()
+dtc.fit(X, y)
+
+# Generate the graphviz representation of the decision tree
+dot_data = export_graphviz(dtc, feature_names=X.columns, class_names=['No', 'Yes'], filled=True, rounded=True, out_file=None)
+
+# Render the graph as a PNG image
+graph = graphviz.Source(dot_data, format='png')
+graph.render('decision_tree', view=True)
+
+
+
