@@ -17,13 +17,13 @@ df.drop(['Std','ID', 'Heat treatment', 'Desc','A5','Bhn','pH','Desc','HV'], axis
 
 # Add the 'Use' column based on specific conditions
 df['Use'] = (
-    (df['Su'].between(336, 505)) &
-    (df['Sy'].between(251, 376)) &
-    (df['E'].between(165000, 248000)) &
-    (df['G'].between(63000, 94000)) &
-    (df['mu'].between(0.24, 0.36)) &
-    (df['Ro'].between(6200, 9400))
-).map({True: 'True', False: 'False'})
+    (df['Su'].between(292, 683)) &
+    (df['Sy'].between(212, 494)) &
+    (df['E'].between(124200, 219000)) &
+    (df['G'].between(47400, 110600)) &
+    (df['mu'].between(0.2, 0.35)) &
+    (df['Ro'].between(4716, 8930))
+).map({True: 'True', False: 'Fasle'})
 
 # Insert the 'Use' column at the second position
 df.insert(7, 'Use', df.pop('Use'))
