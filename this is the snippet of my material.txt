@@ -1,0 +1,41 @@
+Material,Su,Sy,E,G,mu,Ro
+ANSI Steel SAE 1015 as-rolled,421,314,207000,79000,0.3,7860
+ANSI Steel SAE 1015 normalized,424,324,207000,79000,0.3,7860
+ANSI Steel SAE 1015 annealed,386,284,207000,79000,0.3,7860
+ANSI Steel SAE 1020 as-rolled,448,331,207000,79000,0.3,7860
+ANSI Steel SAE 1020 normalized,441,346,207000,79000,0.3,7860
+ANSI Steel SAE 1020 annealed,395,295,207000,79000,0.3,7860
+ANSI Steel SAE 1022 as-rolled,503,359,207000,79000,0.3,7860
+ANSI Steel SAE 1022 normalized,483,359,207000,79000,0.3,7860
+ANSI Steel SAE 1022 annealed,450,317,207000,79000,0.3,7860
+ANSI Steel SAE 1030 as-rolled,552,345,207000,79000,0.3,7860
+ANSI Steel SAE 1030 normalized,517,345,207000,79000,0.3,7860
+ANSI Steel SAE 1030 annealed,464,341,207000,79000,0.3,7860
+ANSI Steel SAE 1030 tempered at 400 F,848,648,207000,79000,0.3,7860
+ANSI Steel SAE 1040 as-rolled,621,414,207000,79000,0.3,7860
+ANSI Steel SAE 1040 normalized,590,374,207000,79000,0.3,7860
+ANSI Steel SAE 1040 annealed,519,353,207000,79000,0.3,7860
+ANSI Steel SAE 1040 tempered at 400 F,779,593,207000,79000,0.3,7860
+ANSI Steel SAE 1050 as-rolled,724,414,207000,79000,0.3,7860
+
+
+above is the snippet of my material.csv file
+I want to add 8th column called rating, which ranges from 1 to 5 which considers values from column 2nd to 7th
+
+
+let me tell you how
+if Su is between 438.3-535.7 & Sy is between 318.6-389.4 & E is between 204930-209070 & G is between 71100-86900 & mu is between 0.285-0.315  & Ro is between 7467-8253
+then rating is 5
+
+else if Su is between 389.6-584.4 & Sy is between 283.2-424.8 & E is between 202860-211140  & G is between 63200-94800  & mu is between 0.27-0.33   & Ro is between 7074-8646 
+then rating is 4
+
+else if Su is between 340.9-633.1 & Sy is between 247.8-460.2 & E is between 200790-213210   & G is between 55300-102700  & mu is between 0.255-0.345   & Ro is between 6681-9039 
+then rating is 3
+
+else if Su is between 292.2-681.8 & Sy is between 212.4-495.6  & E is between 198720-215280   & G is between 47400-110600   & mu is between 0.24-0.36    & Ro is between 6288-9432 
+then rating is 2
+
+for any other range give rating 1 i.e.else 1
+
+and save it to file data.csv

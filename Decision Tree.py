@@ -1,3 +1,4 @@
+# Import required libraries
 from sklearn.tree import DecisionTreeClassifier, export_graphviz
 import graphviz
 import pandas as pd
@@ -11,7 +12,6 @@ df['Material'] = df[['Std', 'Material', 'Heat treatment']].fillna('').agg(' '.jo
 # Remove any string values from Sy column
 df['Sy'] = df['Sy'].str.replace(' max', '').astype(int)
 
-
 # Drop the unnecessary columns
 df.drop(['Std','ID', 'Heat treatment', 'Desc','A5','Bhn','pH','Desc','HV'], axis=1, inplace=True)
 
@@ -19,18 +19,17 @@ df.drop(['Std','ID', 'Heat treatment', 'Desc','A5','Bhn','pH','Desc','HV'], axis
 df['Use'] = (
     (df['Su'].between(292, 683)) &
     (df['Sy'].between(212, 494)) &
-    (df['E'].between(124200, 219000)) &
+    (df['E'].between(196650, 217350)) &
     (df['G'].between(47400, 110600)) &
-    (df['mu'].between(0.2, 0.35)) &
-    (df['Ro'].between(4716, 8930))
-).map({True: 'True', False: 'Fasle'})
+    (df['mu'].between(0.225, 0.375)) &
+    (df['Ro'].between(6288, 9432))
+).map({True: 'Yes', False: 'No'})
 
 # Insert the 'Use' column at the second position
 df.insert(7, 'Use', df.pop('Use'))
 
-# Write the updated data to a new file
-df.to_csv('material.csv', index=False)
-
+# # Write the updated data to a new file
+# df.to_csv('material.csv', index=False)
 
 # Separate the features (X) and labels (y)
 X = df[['Su', 'Sy', 'E', 'G', 'mu', 'Ro']]
