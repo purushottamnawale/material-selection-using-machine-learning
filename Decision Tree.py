@@ -2,6 +2,8 @@
 from sklearn.tree import DecisionTreeClassifier, export_graphviz
 import graphviz
 import pandas as pd
+import pydotplus
+
 
 # Read the CSV file into a pandas DataFrame
 df = pd.read_csv('Data.csv')
@@ -29,7 +31,7 @@ df['Use'] = (
 df.insert(7, 'Use', df.pop('Use'))
 
 # # Write the updated data to a new file
-# df.to_csv('material.csv', index=False)
+df.to_csv('Data Use.csv', index=False)
 
 # Separate the features (X) and labels (y)
 X = df[['Su', 'Sy', 'E', 'G', 'mu', 'Ro']]
@@ -45,6 +47,4 @@ dot_data = export_graphviz(dtc, feature_names=X.columns, class_names=['No', 'Yes
 # Render the graph as a PNG image
 graph = graphviz.Source(dot_data, format='png')
 graph.render('decision_tree', view=True)
-
-
-
+graph

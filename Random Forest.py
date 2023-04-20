@@ -54,8 +54,8 @@ def get_rating(row):
 # Calculate the rating for each row
 df['rating'] = df.apply(get_rating, axis=1)
 
-# # Save the results to a new file data.csv
-# df.to_csv('data.csv', index=False)
+# Save the results to a new file data.csv
+df.to_csv('Data Rating.csv', index=False)
 
 
 # Separate the features and label columns
